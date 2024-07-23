@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exchange Rates</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #exchange-rate {
+            display: inline-block;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Current exchange rate USD/PLN</h1>
+    <div id="exchange-rate">Loading...</div>
+
+    <script>
+        async function fetchExchangeRate() {
+            const apiKey = 'f338256290de1f1db696cb91';
+            const apiUrl = `https://v6.exchangerate-api.com/v6/${apiKey}/latest/USD`;
+
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+                const rate = data.conversion_rates.PLN;
+                document.getElementById('exchange-rate').innerText = `1 USD = ${rate} PLN`;
+            } catch (error) {
+                console.error('Error fetching exchange rate:', error);
+                document.getElementById('exchange-rate').innerText = 'Failed to fetch exchange rate.';
+            }
+        }
+
+        window.onload = fetchExchangeRate;
+    </script>
+</body>
+</html>
